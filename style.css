@@ -1,0 +1,156 @@
+/* Basic page defaults */
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+	line-height: 1.4;
+	color: #222;
+	background: #f7f7f7;
+}
+
+/* Utility container to center content */
+.container {
+	max-width: 1100px;
+	margin: 0 auto;
+	padding: 0 1rem;
+}
+
+/* Hero section -------------------------------------------------
+	 - Uses Intel's signature blue as the background
+	 - White, centered text and generous padding to separate content
+*/
+.hero {
+	background: linear-gradient(135deg, #0084D6 0%, #00438C 100%); /* Intel blue gradient - darkened end */
+	color: #ffffff;
+	padding: 4rem 1rem;
+	text-align: center;
+	border-bottom: 4px solid #555555; /* dark techy gray bottom border */
+}
+.hero .container {
+	max-width: 1000px;
+}
+.hero img {
+	max-width: 240px; /* scale down the Intel logo */
+	height: auto;
+}
+.hero h1 {
+	margin-top: 1rem;
+	margin-bottom: 1.5rem; /* add space between title and opening text */
+}
+
+/* Timeline area -------------------------------------------------
+	 - Layout uses flexbox so cards line up horizontally
+	 - Horizontal overflow allowed for small screens; touch scrolling enabled
+*/
+.timeline {
+	display: flex;
+	gap: 1rem;
+	padding: 2rem 1rem 2.5rem; /* extra bottom space for centered snap */
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	scroll-snap-type: x mandatory;
+	align-items: center; /* vertically center cards */
+	position: relative;
+	scroll-behavior: smooth; /* smooth easing on scroll */
+}
+
+/* Rectangular scrollbar for horizontal timeline */
+.timeline::-webkit-scrollbar {
+	height: 8px;
+}
+.timeline::-webkit-scrollbar-track {
+	background: transparent;
+}
+.timeline::-webkit-scrollbar-thumb {
+	background: #999;
+	border-radius: 0; /* ensure no rounded edges */
+}
+.timeline::-webkit-scrollbar-thumb:hover {
+	background: #666;
+}
+.timeline {
+	scrollbar-width: thin; /* Firefox */
+	scrollbar-color: #999 transparent; /* Firefox */
+}
+
+/* Individual timeline card -------------------------------------
+	 - Fixed minimum width keeps cards readable when arranged horizontally
+	 - Shadow and rounded corners to visually separate from hero/content
+*/
+.timeline-card {
+	background: #ffffff;
+	border-radius: 8px;
+	box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+	padding: 1.25rem;
+	height: 600px; /* uniform card height - increased to fit all content */
+	box-sizing: border-box;
+	flex: 0 0 auto; /* default; overridden by responsive rules below */
+	scroll-snap-align: center;
+	overflow: hidden; /* prevent scrolling within cards */
+}
+
+.timeline-card h3 {
+	min-height: 3.5rem; /* ensure consistent height for headers */
+}
+
+.timeline-card img {
+	width: calc(100% + 2.5rem); /* full width including padding overflow */
+	height: 150px; /* uniform image height */
+	object-fit: cover; /* maintain aspect ratio while fitting */
+	margin: -1.25rem -1.25rem 0.75rem -1.25rem; /* stretch to card edges at top */
+	border-radius: 8px 8px 0 0; /* rounded corners only at top */
+	display: block; /* remove inline spacing */
+}
+
+/* Responsive layout to attempt fitting 3-5 cards on-screen */
+@media (min-width: 1200px) {
+	/* aim for 5 cards across */
+	.timeline-card {
+		flex: 0 0 calc((100% - 4rem) / 5);
+	}
+}
+@media (min-width: 900px) and (max-width: 1199px) {
+	/* aim for 4 cards across */
+	.timeline-card {
+		flex: 0 0 calc((100% - 3rem) / 4);
+	}
+}
+@media (min-width: 700px) and (max-width: 899px) {
+	/* aim for 3 cards across */
+	.timeline-card {
+		flex: 0 0 calc((100% - 2rem) / 3);
+	}
+}
+@media (min-width: 601px) and (max-width: 699px) {
+	/* aim for 2 cards across */
+	.timeline-card {
+		flex: 0 0 calc((100% - 1rem) / 2);
+	}
+}
+
+/* Responsive: stack cards vertically on narrow screens */
+@media (max-width: 600px) {
+	.timeline {
+		flex-direction: column;
+		overflow-x: visible;
+	}
+	.timeline-card {
+		width: 100%;
+		min-width: unset;
+	}
+}
+
+/* Small helper to add spacing beneath the hero section */
+.hero + .content {
+	margin-top: 1rem;
+}
+
+/* Centered scroll hint section ------------------------------------------ */
+.scroll-hint {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+	text-align: center;
+}
+
+/* End of stylesheet */
