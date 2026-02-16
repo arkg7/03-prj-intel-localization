@@ -190,6 +190,22 @@ body {
 	min-height: 1.2rem; /* keep space for feedback message */
 }
 
+/* Footer ------------------------------------------------------
+   - Simple, readable footer for the copyright notice
+*/
+.site-footer {
+	background: #ffffff;
+	border-top: 3px solid #00438C; /* echo the Intel blue */
+	padding: 1.25rem 1rem;
+	text-align: center;
+	font-size: 0.95rem;
+	color: #444444;
+}
+
+.site-footer p {
+	margin: 0;
+}
+
 /* End of stylesheet */
 
 /* -----------------------------
@@ -235,5 +251,11 @@ html[dir="rtl"] .timeline-card,
 /* RTL alignment for subscription section */
 html[dir="rtl"] .subscribe,
 .rtl .subscribe {
+	text-align: right;
+}
+
+/* RTL alignment for footer */
+html[dir="rtl"] .site-footer,
+.rtl .site-footer {
 	text-align: right;
 }
