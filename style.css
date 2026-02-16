@@ -10,8 +10,9 @@ body {
 /* Utility container to center content */
 .container {
 	max-width: 1100px;
-	margin: 0 auto;
-	padding: 0 1rem;
+	margin-inline: auto;
+	padding-block: 0;
+	padding-inline: 1rem;
 }
 
 /* Hero section -------------------------------------------------
@@ -38,38 +39,48 @@ body {
 }
 
 /* Timeline area -------------------------------------------------
-	 - Layout uses flexbox so cards line up horizontally
-	 - Horizontal overflow allowed for small screens; touch scrolling enabled
+	 - Layout uses flexbox with wrapping so all cards are visible
+	 - Mimics simple Bootstrap-style rows and columns
 */
 .timeline {
-	display: flex;
-	gap: 1rem;
-	padding: 2rem 1rem 2.5rem; /* extra bottom space for centered snap */
-	overflow-x: auto;
-	-webkit-overflow-scrolling: touch;
-	scroll-snap-type: x mandatory;
-	align-items: center; /* vertically center cards */
-	position: relative;
-	scroll-behavior: smooth; /* smooth easing on scroll */
+	padding: 2rem 1rem 2.5rem;
 }
 
-/* Rectangular scrollbar for horizontal timeline */
-.timeline::-webkit-scrollbar {
-	height: 8px;
+/* Simple row/column helpers (Bootstrap-like) */
+.row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
 }
-.timeline::-webkit-scrollbar-track {
-	background: transparent;
+
+/* Add extra breathing room between stacked rows */
+.row + .row {
+	margin-top: 1.5rem;
 }
-.timeline::-webkit-scrollbar-thumb {
-	background: #999;
-	border-radius: 0; /* ensure no rounded edges */
+
+.col-12 {
+	flex: 0 0 100%;
 }
-.timeline::-webkit-scrollbar-thumb:hover {
-	background: #666;
+
+@media (min-width: 600px) {
+	.col-sm-6 {
+		flex: 0 0 calc(50% - 0.5rem);
+	}
 }
-.timeline {
-	scrollbar-width: thin; /* Firefox */
-	scrollbar-color: #999 transparent; /* Firefox */
+
+@media (min-width: 900px) {
+	.col-md-4 {
+		flex: 0 0 calc(33.333% - 0.67rem);
+	}
+}
+
+@media (min-width: 1200px) {
+	.col-lg-3 {
+		flex: 0 0 calc(25% - 0.75rem);
+	}
+	.col-lg-4 {
+		flex: 0 0 calc(33.333% - 0.67rem);
+	}
 }
 
 /* Individual timeline card -------------------------------------
@@ -81,10 +92,8 @@ body {
 	border-radius: 8px;
 	box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 	padding: 1.25rem;
-	height: 600px; /* uniform card height - increased to fit all content */
+	height: auto; /* let cards grow naturally */
 	box-sizing: border-box;
-	flex: 0 0 auto; /* default; overridden by responsive rules below */
-	scroll-snap-align: center;
 	overflow: hidden; /* prevent scrolling within cards */
 }
 
@@ -96,61 +105,132 @@ body {
 	width: calc(100% + 2.5rem); /* full width including padding overflow */
 	height: 150px; /* uniform image height */
 	object-fit: cover; /* maintain aspect ratio while fitting */
-	margin: -1.25rem -1.25rem 0.75rem -1.25rem; /* stretch to card edges at top */
+	margin-block-start: -1.25rem;
+	margin-inline: -1.25rem; /* symmetrical both inline-start and inline-end */
+	margin-block-end: 0.75rem;
 	border-radius: 8px 8px 0 0; /* rounded corners only at top */
 	display: block; /* remove inline spacing */
+  box-shadow: 0 6px 6px rgba(0,0,0,0.08);
 }
 
-/* Responsive layout to attempt fitting 3-5 cards on-screen */
-@media (min-width: 1200px) {
-	/* aim for 5 cards across */
-	.timeline-card {
-		flex: 0 0 calc((100% - 4rem) / 5);
-	}
-}
-@media (min-width: 900px) and (max-width: 1199px) {
-	/* aim for 4 cards across */
-	.timeline-card {
-		flex: 0 0 calc((100% - 3rem) / 4);
-	}
-}
-@media (min-width: 700px) and (max-width: 899px) {
-	/* aim for 3 cards across */
-	.timeline-card {
-		flex: 0 0 calc((100% - 2rem) / 3);
-	}
-}
-@media (min-width: 601px) and (max-width: 699px) {
-	/* aim for 2 cards across */
-	.timeline-card {
-		flex: 0 0 calc((100% - 1rem) / 2);
-	}
-}
-
-/* Responsive: stack cards vertically on narrow screens */
-@media (max-width: 600px) {
-	.timeline {
-		flex-direction: column;
-		overflow-x: visible;
-	}
-	.timeline-card {
-		width: 100%;
-		min-width: unset;
-	}
-}
 
 /* Small helper to add spacing beneath the hero section */
 .hero + .content {
 	margin-top: 1rem;
 }
 
-/* Centered scroll hint section ------------------------------------------ */
-.scroll-hint {
+/* Subscription form ------------------------------------------------------
+   - Matches the clean card look used in the timeline
+   - Uses simple flexbox for a beginner-friendly layout
+*/
+.subscribe {
+	background: #ffffff;
+	border: 1px solid #e5e5e5;
+	border-radius: 8px;
+	box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+	padding: 1.5rem;
+	margin: 1rem auto 2rem;
+}
+
+.subscribe h2 {
+	margin-top: 0;
+	color: #00438C; /* echo the hero blue */
+}
+
+.subscribe-form label {
+	font-weight: 600;
+	display: inline-block;
+	margin-bottom: 0.5rem;
+}
+
+.subscribe-row {
 	display: flex;
+	gap: 0.75rem;
 	align-items: center;
-	justify-content: center;
-	padding: 1rem;
-	text-align: center;
+	flex-wrap: wrap;
+}
+
+.subscribe-form input[type="email"] {
+	flex: 1 1 240px;
+	padding: 0.65rem 0.75rem;
+	border: 1px solid #cccccc;
+	border-radius: 6px;
+	font-size: 1rem;
+}
+
+.subscribe-form input[type="email"]:focus {
+	outline: 2px solid #0084D6;
+	border-color: #0084D6;
+}
+
+.subscribe-form button {
+	background: #0084D6;
+	color: #ffffff;
+	border: none;
+	border-radius: 6px;
+	padding: 0.65rem 1.1rem;
+	font-size: 1rem;
+	cursor: pointer;
+}
+
+.subscribe-form button:hover {
+	background: #006fb5;
+}
+
+.subscribe-form button:disabled {
+	opacity: 0.7;
+	cursor: not-allowed;
+}
+
+.subscribe-message {
+	margin: 0.75rem 0 0;
+	min-height: 1.2rem; /* keep space for feedback message */
 }
 
 /* End of stylesheet */
+
+/* -----------------------------
+   RTL & language-aware helpers
+   - Makes layout adapt when `dir="rtl"` is set on <html>
+   - Uses logical properties to avoid manual flipping
+   - A small JS will toggle `dir` based on language settings
+   ----------------------------- */
+html[dir="rtl"] {
+	direction: rtl;
+}
+
+html[dir="rtl"] .container {
+	/* ensure centering uses logical properties */
+	margin-inline: auto;
+}
+
+html[dir="rtl"] .timeline {
+	/* cards should still wrap naturally in RTL */
+	direction: rtl;
+}
+
+/* Provide a helpful class variant if scripts prefer toggling classes */
+.rtl .timeline {
+	direction: rtl;
+}
+
+/* Make sure image margins use logical properties (already set above),
+   but keep an explicit rule to be safe in older browsers */
+html[dir="rtl"] .timeline-card img,
+.rtl .timeline-card img {
+	margin-block-start: -1.25rem;
+	margin-inline: -1.25rem;
+	margin-block-end: 0.75rem;
+}
+
+/* Right-align text content inside cards/hero when using RTL */
+html[dir="rtl"] .timeline-card,
+.rtl .timeline-card {
+	text-align: right;
+}
+
+/* RTL alignment for subscription section */
+html[dir="rtl"] .subscribe,
+.rtl .subscribe {
+	text-align: right;
+}
